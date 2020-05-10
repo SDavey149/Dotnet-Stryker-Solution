@@ -12,20 +12,22 @@ namespace Stryker_Solution
     public class App
     {
         private readonly Configuration configuration;
+        private readonly IFullReportProducer fullReportProducer;
+        private readonly IStrykerRunner strykerRunner;
         
-        public App(IOptions<Configuration> configuration)
+        public App(IOptions<Configuration> configuration,
+            IStrykerRunner strykerRunner,
+            IFullReportProducer fullReportProducer)
         {
             this.configuration = configuration.Value;
+            this.strykerRunner = strykerRunner;
+            this.fullReportProducer = fullReportProducer;
         }
         
         public void Run()
         {
-            string fullReportPath = this.configuration.FullReport;
-            string json = File.ReadAllText(fullReportPath);
-
-            var jObject = JObject.Parse(json);
-            var files = (jObject.SelectToken("files") ?? throw new Exception("Files array is null")).Value<JObject>();
-            
+            JObject fullReport = strykerRunner.Run();
+            fullReportProducer.Process(fullReport);
         }
     }
 }

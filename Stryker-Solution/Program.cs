@@ -26,8 +26,12 @@ namespace Stryker_Solution
             IConfigurationSection section = configuration.GetSection("Config");
             serviceCollection.Configure<Configuration>(section);
             
-            serviceCollection.AddSingleton<IConfigurationRoot>(configuration);
+            serviceCollection.AddSingleton(configuration);
             serviceCollection.AddTransient<App>();
+            serviceCollection.AddSingleton<IFullReportProducer, FullReportProducer>();
+            serviceCollection.AddSingleton<IProjectProvider, ProjectProvider>();
+            serviceCollection.AddSingleton<IStrykerRunner, StrykerRunner>();
+            serviceCollection.AddSingleton<ICommandRunner, CommandRunner>();
         }
     }
 }
