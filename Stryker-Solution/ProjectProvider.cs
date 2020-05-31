@@ -17,8 +17,11 @@ namespace Stryker_Solution
         public ProjectProvider(IOptions<Configuration> config)
         {
             this.config = config.Value;
-            TestProjectPaths = GetTestProjects();
-            SourceProjects = GetSourceProjects(TestProjectPaths);
+            string[] testProjects = GetTestProjects();
+            TestProjectPaths = testProjects
+                .Select(x => x.Substring(0,x.LastIndexOf('\\')))
+                .ToArray();
+            SourceProjects = GetSourceProjects(testProjects);
         }
         
         private string[] GetSourceProjects(string[] testProjects)
@@ -31,8 +34,7 @@ namespace Stryker_Solution
 
         private string[] GetTestProjects()
         {
-            string[] filePaths = GetFilesWithPattern("*.Tests.csproj");
-            return filePaths.Select(x => x.Substring(0,x.LastIndexOf('\\'))).ToArray();
+            return GetFilesWithPattern("*.Tests.csproj");
         }
         
         private string[] GetFilesWithPattern(string pattern)

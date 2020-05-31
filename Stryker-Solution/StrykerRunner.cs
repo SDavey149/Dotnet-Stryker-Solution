@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Windows.Input;
 using Newtonsoft.Json.Linq;
 
 namespace Stryker_Solution
@@ -12,7 +9,8 @@ namespace Stryker_Solution
     public class StrykerRunner : IStrykerRunner
     {
         private const string STRYKER_REF_ERROR = "Project reference issue";
-        
+        private const string MUTANT = "mutants";
+
         private readonly IProjectProvider projectProvider;
         private readonly ICommandRunner commandRunner;
         
@@ -39,8 +37,24 @@ namespace Stryker_Solution
                     JObject jObject = JObject.Parse(report);
                     var reportFiles = (jObject.SelectToken("files") ?? throw new Exception("Files array is null"))
                         .Value<JObject>();
-                    
-                    allFiles.Merge(reportFiles);
+
+                    Console.WriteLine("Files count: " + reportFiles.Count);
+                    foreach (KeyValuePair<string,JToken> file in reportFiles)
+                    {
+                        bool fileExists = allFiles.TryGetValue(file.Key, out JToken existingFile);
+                        if (fileExists)
+                        {
+                            if (existingFile.Value<JArray>(MUTANT).Count < 
+                                file.Value.Value<JArray>(MUTANT).Count)
+                            {
+                                allFiles[file.Key] = file.Value;
+                            }
+                        }
+                        else
+                        {
+                            allFiles.Add(file.Key, file.Value);
+                        }
+                    }
                 }
             }
 

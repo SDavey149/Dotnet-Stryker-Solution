@@ -26,7 +26,9 @@ namespace Stryker_Solution
         
         public void Run()
         {
-            JObject fullReport = strykerRunner.Run();
+            var fullReport = new JObject();
+            fullReport["files"] = strykerRunner.Run();
+            
             fullReportProducer.Process(fullReport);
         }
     }
