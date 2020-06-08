@@ -2,8 +2,16 @@
 {
     public class Configuration
     {
-        public string SolutionDirectory { get; set; }
+        private string solutionDirectory;
+        
+        public string SolutionDirectory
+        {
+            get => solutionDirectory;
+            set => solutionDirectory = value.Replace("/", "\\");
+        }
         
         public string[] ExcludeFileNamesContaining { get; set; }
+        
+        public string TestProjectFormat { get; set; }
     }
 }

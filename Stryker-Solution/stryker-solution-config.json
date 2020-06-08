@@ -1,0 +1,10 @@
+﻿{
+    "Config": 
+    {
+        "SolutionDirectory": "",
+        "TestProjectFormat": "*.Tests.csproj",
+        "ExcludeFileNamesContaining": [
+            "Migrations"
+        ]
+    }
+}

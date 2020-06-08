@@ -20,7 +20,7 @@ namespace Stryker_Solution
             // Build configuration
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
-                .AddJsonFile("appsettings.json", false)
+                .AddJsonFile("stryker-solution-config.json", false)
                 .Build();
             
             IConfigurationSection section = configuration.GetSection("Config");

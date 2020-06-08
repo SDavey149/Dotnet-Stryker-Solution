@@ -34,7 +34,7 @@ namespace Stryker_Solution
 
         private string[] GetTestProjects()
         {
-            return GetFilesWithPattern("*.Tests.csproj");
+            return GetFilesWithPattern(config.TestProjectFormat);
         }
         
         private string[] GetFilesWithPattern(string pattern)
