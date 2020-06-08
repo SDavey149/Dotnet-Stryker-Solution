@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Newtonsoft.Json.Linq;
@@ -9,21 +8,23 @@ namespace Stryker_Solution
     public class StrykerRunner : IStrykerRunner
     {
         private const string STRYKER_REF_ERROR = "Project reference issue";
-        private const string MUTANT = "mutants";
 
         private readonly IProjectProvider projectProvider;
         private readonly ICommandRunner commandRunner;
+        private readonly IReportMerger reportMerger;
         
         public StrykerRunner(IProjectProvider projectProvider, 
-            ICommandRunner commandRunner)
+            ICommandRunner commandRunner,
+            IReportMerger reportMerger)
         {
             this.projectProvider = projectProvider;
             this.commandRunner = commandRunner;
+            this.reportMerger = reportMerger;
         }
         
         public JObject Run()
         {
-            var allFiles = new JObject();
+            var existingFiles = new JObject();
             foreach (string testProjectPath in projectProvider.TestProjectPaths)
             {
                 foreach (string projectToMutate in projectProvider.SourceProjects)
@@ -33,32 +34,12 @@ namespace Stryker_Solution
                     {
                         continue;
                     }
-                    
-                    JObject jObject = JObject.Parse(report);
-                    var reportFiles = (jObject.SelectToken("files") ?? throw new Exception("Files array is null"))
-                        .Value<JObject>();
 
-                    Console.WriteLine("Files count: " + reportFiles.Count);
-                    foreach (KeyValuePair<string,JToken> file in reportFiles)
-                    {
-                        bool fileExists = allFiles.TryGetValue(file.Key, out JToken existingFile);
-                        if (fileExists)
-                        {
-                            if (existingFile.Value<JArray>(MUTANT).Count < 
-                                file.Value.Value<JArray>(MUTANT).Count)
-                            {
-                                allFiles[file.Key] = file.Value;
-                            }
-                        }
-                        else
-                        {
-                            allFiles.Add(file.Key, file.Value);
-                        }
-                    }
+                    reportMerger.MergeFilesReport(report, existingFiles);
                 }
             }
 
-            return allFiles;
+            return existingFiles;
         }
 
         private string RunStryker(string testPath, string projectToMutate)
@@ -67,12 +48,13 @@ namespace Stryker_Solution
                              $"dotnet stryker --reporters \"['json']\" --project-file={projectToMutate}";
 
             string output = commandRunner.RunShellCommand(command);
-
+            
             if (output.Contains(STRYKER_REF_ERROR))
             {
                 return string.Empty;
             }
 
+            Console.WriteLine($"Mutated {projectToMutate} for tests {testPath}");
             return ReadReport(testPath);
         }
 

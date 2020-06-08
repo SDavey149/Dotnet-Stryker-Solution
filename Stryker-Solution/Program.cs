@@ -32,6 +32,7 @@ namespace Stryker_Solution
             serviceCollection.AddSingleton<IProjectProvider, ProjectProvider>();
             serviceCollection.AddSingleton<IStrykerRunner, StrykerRunner>();
             serviceCollection.AddSingleton<ICommandRunner, CommandRunner>();
+            serviceCollection.AddSingleton<IReportMerger, ReportMerger>();
         }
     }
 }
