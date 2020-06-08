@@ -20,13 +20,16 @@ Run the command ```stryker.solution``` in the directory where your ```stryker-so
 
 ## Config
 
+Please put the below in ```stryker-solution-config.json```
+
 ```
 {
     "Config": 
     {
         "SolutionDirectory": "C:/Path/ToFolder",
+        "TestProjectFormat": "*.Tests.csproj",
         "ExcludeFileNamesContaining": [
-            "Migrations",
+            "Migrations"
         ]
     }
 }
