@@ -9,6 +9,15 @@ A report (full-report.html) is output into the solution directory.
 Bear in mind this is a half-assed job until Stryker implement their own functionality to run on whole 
 .NET core solutions. :)
 
+## Installation
+
+```
+dotnet tool install --global stryker.solution
+```
+
+Run the command ```stryker.solution``` in the directory where your ```stryker-solution-config.json``` is located. 
+**THE CONFIG FILE MUST BE PROVIDED** (otherwise you get a messy stacktrace because I'm lazy)
+
 ## Config
 
 ```

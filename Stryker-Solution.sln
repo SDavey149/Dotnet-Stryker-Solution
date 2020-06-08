@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stryker-Solution", "Stryker-Solution\Stryker-Solution.csproj", "{DC798E57-1992-416D-8B98-96512C3C4774}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Stryker.Solution", "Stryker.Solution\Stryker.Solution.csproj", "{DC798E57-1992-416D-8B98-96512C3C4774}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

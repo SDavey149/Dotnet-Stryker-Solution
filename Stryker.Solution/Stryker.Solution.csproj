@@ -3,9 +3,8 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>netcoreapp3.1</TargetFramework>
-        <RootNamespace>Stryker_Solution</RootNamespace>
         <PackAsTool>true</PackAsTool>
-        <ToolCommandName>dotnet-stryker-solution</ToolCommandName>
+        <ToolCommandName>stryker.solution</ToolCommandName>
         <PackageOutputPath>./nupkg</PackageOutputPath>
 
     </PropertyGroup>
@@ -21,9 +20,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="stryker-solution-config.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
       <None Update="stryker-empty.html">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
