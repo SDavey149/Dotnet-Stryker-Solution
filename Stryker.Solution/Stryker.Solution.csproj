@@ -6,6 +6,8 @@
         <PackAsTool>true</PackAsTool>
         <ToolCommandName>stryker.solution</ToolCommandName>
         <PackageOutputPath>./nupkg</PackageOutputPath>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageVersion>1.0.1</PackageVersion>
 
     </PropertyGroup>
 

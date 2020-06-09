@@ -17,10 +17,9 @@ namespace Stryker_Solution
         
         private static void ConfigureServices(IServiceCollection serviceCollection)
         {
-            // Build configuration
             IConfigurationRoot configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("stryker-solution-config.json", false)
+                .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
+                .AddJsonFile(Directory.GetCurrentDirectory() + "\\stryker-solution-config.json", false)
                 .Build();
             
             IConfigurationSection section = configuration.GetSection("Config");

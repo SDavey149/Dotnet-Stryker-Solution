@@ -11,6 +11,8 @@ Bear in mind this is a half-assed job until Stryker implement their own function
 
 ## Installation
 
+You must have dotnet-stryker installed as a global dotnet tool too.
+
 ```
 dotnet tool install --global stryker.solution
 ```

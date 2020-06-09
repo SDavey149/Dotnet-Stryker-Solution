@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 
@@ -30,7 +31,7 @@ namespace Stryker_Solution
 
         private void WriteHtmlReport(string jsonOutput)
         {
-            var htmlTemplate = File.ReadAllText("stryker-empty.html");
+            var htmlTemplate = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "stryker-empty.html");
             var htmlReport = htmlTemplate.Replace("##REPORT_JSON##", jsonOutput);
             File.WriteAllText($"{config.SolutionDirectory}\\full-report.html", htmlReport);
         }
