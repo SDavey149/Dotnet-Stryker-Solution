@@ -16,8 +16,6 @@ namespace Stryker_Solution
         
         public void Process(JObject files)
         {
-            ApplyExclusions(files);
-
             string jsonOutput = files.ToString();
             WriteJsonReport(jsonOutput);
             WriteHtmlReport(jsonOutput);
@@ -34,21 +32,6 @@ namespace Stryker_Solution
             var htmlTemplate = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "stryker-empty.html");
             var htmlReport = htmlTemplate.Replace("##REPORT_JSON##", jsonOutput);
             File.WriteAllText($"{config.SolutionDirectory}\\full-report.html", htmlReport);
-        }
-
-        private static void ApplyExclusions(JObject files)
-        {
-            var properties = files.Properties();
-            foreach (JProperty property in properties)
-            {
-                var sourceVal = property.Value.SelectToken("source");
-                if (sourceVal is null)
-                {
-                    continue;
-                }
-                
-                var source = sourceVal.Value<string>();
-            }
         }
     }
 }
