@@ -8,6 +8,7 @@ namespace Stryker_Solution
     public class StrykerRunner : IStrykerRunner
     {
         private const string STRYKER_REF_ERROR = "Project reference issue";
+        private const string STRYKER_SUCCESS = "final mutation score";
 
         private readonly IProjectProvider projectProvider;
         private readonly ICommandRunner commandRunner;
@@ -49,8 +50,13 @@ namespace Stryker_Solution
 
             string output = commandRunner.RunShellCommand(command);
             
-            if (output.Contains(STRYKER_REF_ERROR))
+            if (!output.Contains(STRYKER_SUCCESS))
             {
+                if (!output.Contains(STRYKER_REF_ERROR))
+                {
+                    Console.WriteLine(output);
+                }
+                
                 return string.Empty;
             }
 
