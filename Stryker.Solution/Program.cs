@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,12 +11,13 @@ namespace Stryker_Solution
         static void Main(string[] args)
         {
             var serviceCollection = new ServiceCollection();
+            SetConfigValues(serviceCollection, args.FirstOrDefault());
             ConfigureServices(serviceCollection);
             IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
             serviceProvider.GetService<App>().Run();
         }
-        
-        private static void ConfigureServices(IServiceCollection serviceCollection)
+
+        private static void SetConfigValues(IServiceCollection serviceCollection, string solution)
         {
             IConfigurationRoot configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetParent(AppContext.BaseDirectory).FullName)
@@ -23,15 +25,24 @@ namespace Stryker_Solution
                 .Build();
             
             IConfigurationSection section = configuration.GetSection("Config");
-            serviceCollection.Configure<Configuration>(section);
+
+            if (solution != null)
+            {
+                section["SolutionDirectory"] = solution;
+            }
             
-            serviceCollection.AddSingleton(configuration);
-            serviceCollection.AddTransient<App>();
-            serviceCollection.AddSingleton<IFullReportProducer, FullReportProducer>();
-            serviceCollection.AddSingleton<IProjectProvider, ProjectProvider>();
-            serviceCollection.AddSingleton<IStrykerRunner, StrykerRunner>();
-            serviceCollection.AddSingleton<ICommandRunner, CommandRunner>();
-            serviceCollection.AddSingleton<IReportMerger, ReportMerger>();
+            serviceCollection.Configure<Configuration>(section);
+        }
+        
+        private static void ConfigureServices(IServiceCollection serviceCollection)
+        {
+            serviceCollection
+                .AddTransient<App>()
+                .AddSingleton<IFullReportProducer, FullReportProducer>()
+                .AddSingleton<IProjectProvider, ProjectProvider>()
+                .AddSingleton<IStrykerRunner, StrykerRunner>()
+                .AddSingleton<ICommandRunner, CommandRunner>()
+                .AddSingleton<IReportMerger, ReportMerger>();
         }
     }
 }

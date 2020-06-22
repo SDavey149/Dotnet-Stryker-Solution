@@ -7,7 +7,13 @@
         <ToolCommandName>stryker.solution</ToolCommandName>
         <PackageOutputPath>./nupkg</PackageOutputPath>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageVersion>1.0.3</PackageVersion>
+        <PackageVersion>1.0.5</PackageVersion>
+        <Description>Run donet-stryker on whole .NET core solutions. </Description>
+        <RepositoryUrl>https://github.com/SDavey149/Dotnet-Stryker-Solution</RepositoryUrl>
+        <Title>Stryker.Solution</Title>
+        <Authors>Scott Davey</Authors>
+        <PackageProjectUrl>https://github.com/SDavey149/Dotnet-Stryker-Solution</PackageProjectUrl>
+        <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
 
     </PropertyGroup>
 
@@ -24,6 +30,9 @@
     <ItemGroup>
       <None Update="stryker-empty.html">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="stryker-solution-config.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
     </ItemGroup>
 

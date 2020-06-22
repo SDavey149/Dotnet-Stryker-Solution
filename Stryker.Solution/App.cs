@@ -26,6 +26,7 @@ namespace Stryker_Solution
         
         public void Run()
         {
+            Console.WriteLine($"Running for solution: {configuration.SolutionDirectory}");
             var fullReport = new JObject();
             fullReport["files"] = strykerRunner.Run();
             

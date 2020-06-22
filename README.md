@@ -20,6 +20,9 @@ dotnet tool install --global stryker.solution
 Run the command ```stryker.solution``` in the directory where your ```stryker-solution-config.json``` is located. 
 **THE CONFIG FILE MUST BE PROVIDED** (otherwise you get a messy stacktrace because I'm lazy)
 
+The path to the solution can be given as the first argument instead of providing it in the file if you wish:
+```stryker.solution ../path/to/my/solution/directory```
+
 ## Config
 
 Please put the below in ```stryker-solution-config.json```

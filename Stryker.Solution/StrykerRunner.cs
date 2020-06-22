@@ -25,6 +25,9 @@ namespace Stryker_Solution
         
         public JObject Run()
         {
+            var reportedTestProjects = string.Join(", ", projectProvider.TestProjectPaths);
+            Console.WriteLine($"Running mutation tests on these test projects: {reportedTestProjects}");
+            
             var existingFiles = new JObject();
             foreach (string testProjectPath in projectProvider.TestProjectPaths)
             {
@@ -49,7 +52,7 @@ namespace Stryker_Solution
                              $"dotnet stryker --reporters \"['json']\" --project-file={projectToMutate}";
 
             string output = commandRunner.RunShellCommand(command);
-            
+
             if (!output.Contains(STRYKER_SUCCESS))
             {
                 if (!output.Contains(STRYKER_REF_ERROR))
